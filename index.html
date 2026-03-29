@@ -356,91 +356,77 @@ body{
 }
 /* === DVSA-STYLE IMAGE ANSWERS (Minimal, Clean) === */
 
+/* === IMAGE ANSWERS: RESPONSIVE 2x2 GRID === */
 .answers.img-grid{
-  grid-template-columns:repeat(2, auto);   /* ✅ no stretched tiles */
-  gap:36px 60px;                           /* vertical / horizontal spacing */
-  justify-content:center;
-  align-items:center;
-  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+  width:100%;
+  margin-top:20px;
 }
 
-/* Remove all tile/container styling */
 .answers.img-grid .option.img-choice{
-  background:transparent !important;
-  border:none !important;
-  padding:0 !important;        /* ✅ removes massive padding */
-  margin:0 !important;
-  width:auto !important;
-  height:auto !important;
-  box-shadow:none !important;
-
-  display:inline-flex;
-  justify-content:center;
+  display:flex;
   align-items:center;
-
-  transition:transform .12s ease;
+  justify-content:center;
+  width:100%;
+  min-height:160px;
+  padding:14px;
+  margin:0;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:rgba(255,255,255,.03);
+  box-shadow:none;
+  text-align:center;
+  transition:transform .12s ease, background .15s ease, border-color .15s ease;
 }
 
-/* Remove wrapper spacing */
+.answers.img-grid .option.img-choice:hover{
+  background:rgba(255,255,255,.06);
+}
+
+.answers.img-grid .option.img-choice:active{
+  transform:scale(.98);
+}
+
+.answers.img-grid .option.img-choice.selected{
+  border-color:rgba(74,163,255,.65);
+  background:rgba(74,163,255,.12);
+}
+
 .answers.img-grid .img-option{
-  gap:0 !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  gap:0;
 }
 
-/* ✅ Bigger floating signs */
 .answers.img-grid .img-option img{
+  max-width:100%;
+  max-height:140px;
   width:auto;
-  max-width:280px;   /* 🔥 MAIN SIZE CONTROL */
   height:auto;
   display:block;
-
-  border:none !important;
-  background:transparent !important;
+  object-fit:contain;
+  border:none;
+  background:transparent;
 }
 
-/* Tap animation */
-.answers.img-grid .option.img-choice:active{
-  transform:scale(0.96);
-}
-
-/* Selected glow (clean DVSA feel) */
-.answers.img-grid .option.img-choice.selected img{
-  transform:scale(1.08);
-  filter:drop-shadow(0 0 14px rgba(74,163,255,.65));
-}
-
- .r2d-answers {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.r2d-answer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 16px;
-  aspect-ratio: 1 / 1;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.r2d-answer img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-@media (max-width: 480px) {
-  .r2d-answers {
-    gap: 12px;
+/* Mobile */
+@media (max-width: 480px){
+  .answers.img-grid{
+    gap:12px;
   }
 
-  .r2d-answer {
-    padding: 12px;
+  .answers.img-grid .option.img-choice{
+    min-height:130px;
+    padding:10px;
+  }
+
+  .answers.img-grid .img-option img{
+    max-height:110px;
   }
 }
  
