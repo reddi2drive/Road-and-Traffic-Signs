@@ -1,0 +1,2208 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- =========================================================
+       NOTE (R2D): Page identity
+       - Change <title>Template</title>
+  <meta name="description" content="Reddi2Drive knowledge test template (UK). Duplicate this file to build new topic tests." />
+  
+
+<!-- NOTE (R2D): Home Screen icon (Add to Home Screen)
+     iOS uses apple-touch-icon. Android uses manifest icons.
+     Add these lines and upload the PNGs to your site:
+     <link rel="apple-touch-icon" sizes="180x180" href="icons/reddi2drive-180.png">
+     <link rel="manifest" href="manifest.json">
+-->
+<style>
+
+    /* =========================================================
+       STYLES (edit colours, spacing, logo size, etc.)
+       ---------------------------------------------------------
+       - Most layout is in .card, .btn, .option, and the header.
+       - Image sizing rules: .q-image, .q-image.large, .q-image.xlarge
+       ========================================================= */
+
+
+    .q-image{
+  display:none;
+  width:100%;
+  max-width:275px;           /* default image size (desktop) */
+  height:auto;
+  margin:14px auto 8px;
+  border-radius:12px;
+}
+
+/* Larger image flags (per-question) */
+.q-image.large{ max-width:520px; }
+.q-image.xlarge{ max-width:850px; }
+
+/* Mobile / iPad */
+@media (max-width: 820px){
+  .q-image{ max-width:250px; }
+  .q-image.large{ max-width:500px; }
+  .q-image.xlarge{ max-width:900px; }
+}
+@media (max-width: 820px){
+    .q-image.xlarge{max-width:750px; }
+   }
+/* Layout: keep existing button styling, just push Quit to far right */
+.r2d-nav-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;   /* ← drop the buttons down a bit */
+}
+.r2d-spacer{ flex:1; }
+
+
+    
+
+
+    /* =========================================================
+       NOTE (R2D): Theme variables (quick way to make each test look unique)
+       - Change --bg, --card, --accent, --good, --bad to alter colour scheme.
+       - Change --max for layout width.
+       ========================================================= */
+    :root{
+      --bg:#0b1220; --card:#121a2b; --text:#eef3ff; --muted:#9fb0cc;
+      --accent:#4aa3ff; --good:#2bd576; --bad:#ff4d4d; --border:rgba(255,255,255,.10);
+      --shadow:0 12px 30px rgba(0,0,0,.35); --r:16px; --max:820px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 800px at 20% 0%, rgba(74,163,255,.18), transparent 55%),
+        radial-gradient(1200px 800px at 80% 0%, rgba(43,213,118,.10), transparent 55%),
+        var(--bg);
+    }
+    header{max-width:var(--max); margin:0 auto; padding:22px 16px 8px}
+    h1{margin:0; font-size:20px; letter-spacing:.2px}
+    main{max-width:var(--max); margin:0 auto; padding:8px 16px 28px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%), var(--card);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      border-radius:var(--r);
+      padding:18px;
+      margin:12px 0;
+    }
+    .row{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+    .pill{border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; color:var(--muted)}
+    .muted{color:var(--muted)}
+    .big{font-size:28px; margin:0}
+    .btn{
+      border-radius:14px; border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text); padding:11px 14px; cursor:pointer; font-weight:700;
+    }
+    .btn.primary{
+      background:linear-gradient(90deg, rgba(74,163,255,.95), rgba(74,163,255,.55));
+      border-color:rgba(74,163,255,.55); color:#07101d;
+    }
+    .btn.ghost{background:transparent}
+    .btn:disabled{opacity:.5; cursor:not-allowed}
+    .tag{display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); color:var(--muted)}
+    .progress{height:10px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; border:1px solid var(--border); margin-top:12px}
+    .progress > div{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), rgba(74,163,255,.55)); transition:width .25s ease}
+    .qTitle{margin:10px 0 12px; font-size:18px}
+    .answers{display:grid; gap:10px; margin-top:10px}
+
+    /* --- Image answer options (2x2 grid) --- */
+    .answers.img-grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+    }
+    .option.img-choice{
+      text-align:center;
+      padding:12px 10px;
+    }
+    .img-option{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .img-option img{
+      width:100%;
+      max-width:140px;
+      height:auto;
+      display:block;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.02);
+    }
+    .img-label{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.2;
+    }
+
+    .option{
+      text-align:left; width:100%;
+      padding:12px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text); cursor:pointer;
+      transition:transform .05s ease, background .15s ease, border-color .15s ease;
+    }
+    .option:hover{background:rgba(255,255,255,.06)}
+    .option:active{transform:scale(.995)}
+    .option.selected{border-color:rgba(74,163,255,.65); background:rgba(74,163,255,.12)}
+    .option[disabled]{cursor:not-allowed; opacity:.95}
+    .feedback{margin-top:12px; padding:12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.03)}
+    .feedback.good{border-color:rgba(43,213,118,.35); background:rgba(43,213,118,.08)}
+    .feedback.bad{border-color:rgba(255,77,77,.35); background:rgba(255,77,77,.08)}
+    .feedback .title{display:flex; justify-content:space-between; gap:10px; align-items:center; font-weight:800; margin-bottom:6px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .small{font-size:12px; color:var(--muted)}
+    .kpi{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px}
+    .box{flex:1 1 160px; border:1px solid var(--border); background:rgba(255,255,255,.03); border-radius:14px; padding:12px}
+    .box .n{font-size:22px; font-weight:900; margin:0}
+    .box .l{margin:2px 0 0; color:var(--muted); font-size:12px}
+.imgwrap{
+  margin:10px auto;
+  display:flex;
+  justify-content:center;
+}
+.hint{border-left:3px solid rgba(255,204,102,.7); padding-left:16px; margin-top:10px; color:var(--muted); font-size:13px}
+    a{color:var(--accent)}
+    .reviewItem{border-top:1px solid var(--border); padding-top:12px; margin-top:12px}
+/* --- Review ticks / crosses --- */
+#reviewScreen .reviewItem{ position:relative; }
+#reviewScreen .reviewItem .result{
+  position:absolute;
+  top:12px;
+  right:12px;
+  font-size:22px;
+  font-weight:900;
+  line-height:1;
+  white-space:nowrap;
+}
+#reviewScreen .reviewItem .result.ok{ color:var(--good); }
+#reviewScreen .reviewItem .result.bad{ color:var(--bad); }
+#reviewScreen .reviewItem .row{ padding-right:48px; }
+
+    .zoomOverlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.75);
+      display:none; align-items:center; justify-content:center; padding:16px; z-index:9999;
+    }
+    .zoomOverlay img{
+      max-width:min(980px, 96vw);
+      max-height:90vh;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .brand{
+  margin:0;
+  font-size:20px;
+  letter-spacing:.2px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brandLogo{
+  height:60px;
+  width:60px;
+  border-radius:60%;
+  object-fit:cover;
+  display:block;
+}
+
+
+/* --- Scroll + pull-to-refresh protection (iPhone + iPad) --- */
+html, body{
+  height:100%;
+  margin:0;
+  overflow:hidden;           /* page itself doesn't scroll */
+}
+body{
+  position:fixed;            /* prevents iPad pull-to-refresh bounce */
+  width:100%;
+}
+#appScroll{
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+/* --- Keep the action buttons reachable when an image is shown --- */
+#quizScreen{
+  padding-bottom:84px;       /* space for the sticky nav row */
+}
+.r2d-nav-row{
+  position:sticky;
+  bottom:0;
+  z-index:50;
+  background:linear-gradient(180deg, rgba(18,26,43,.75), rgba(18,26,43,1));
+  backdrop-filter:saturate(120%) blur(6px);
+  border-top:1px solid var(--border);
+  padding:10px 0 6px;
+  margin-top:12px;
+}
+  .r2d-tagline{
+  width:100%;
+  text-align:right;          /* desktop/tablet wide */
+  margin:-15px 0 0 16px;   /* closer to title, pushed further right */
+  font-weight:800;
+  letter-spacing:.08em;
+  font-size:.85rem;
+  position:relative;
+  left:16px;
+}
+@media (max-width: 1024px){
+  /* iPad/iPhone: tagline sits UNDER the title */
+  .row.header-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .r2d-tagline{
+    text-align:center;
+    margin:-19px 0 0 12px;  /* closer + pushed further right on small screens */
+    left:12px;
+  }
+}
+
+.r2d-word{ text-transform:none; }
+.r2d-word.learn{ color:#e53935; }
+.r2d-word.drive{
+  color:#111;                 /* your requested “black” */
+  text-shadow:0 0 2px rgba(255,255,255,.65); /* keeps it readable on dark header */
+}
+.r2d-word.pass{  color:#fff; }
+
+.two{ color:#9aa0a6; }
+.dot{ margin:0 1px; color:rgba(255,255,255,.35); }
+
+/* (Remove the old .question img sizing rules — q-image handles it) */
+.review-image{display:block; margin:10px auto;}
+
+/* --- Quiz UI tweaks --- */
+/* Hide the category pill on the quiz screen */
+#quizScreen #catTag{ display:none !important; }
+
+/* Submit/Next button colour change */
+.btn.next-state{
+  background:linear-gradient(90deg, rgba(43,213,118,.95), rgba(43,213,118,.55));
+  border-color:rgba(43,213,118,.55);
+  color:#07101d;
+}
+
+
+
+/* --- Quit confirmation modal --- */
+.quit-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  backdrop-filter: blur(3px);
+}
+
+.quit-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  border-radius:18px;
+  padding:22px 20px;
+  width:min(320px, 90vw);
+  text-align:center;
+}
+
+.quit-title{
+  font-size:18px;
+  font-weight:800;
+  margin:0 0 6px;
+}
+
+.quit-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-top:16px;
+}
+
+
+/* --- Review Last Attempt button (Start screen only) --- */
+#reviewLastWrap{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  display:none;
+  text-align:center;
+  z-index:20;
+}
+#reviewLastBtn{
+  padding:8px 12px;
+  font-weight:800;
+}
+#reviewLastMeta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+/* === DVSA-STYLE IMAGE ANSWERS (Minimal, Clean) === */
+
+.answers.img-grid{
+  grid-template-columns:repeat(2, auto);   /* ✅ no stretched tiles */
+  gap:36px 60px;                           /* vertical / horizontal spacing */
+  justify-content:center;
+  align-items:center;
+  margin-top:24px;
+}
+
+/* Remove all tile/container styling */
+.answers.img-grid .option.img-choice{
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;        /* ✅ removes massive padding */
+  margin:0 !important;
+  width:auto !important;
+  height:auto !important;
+  box-shadow:none !important;
+
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+
+  transition:transform .12s ease;
+}
+
+/* Remove wrapper spacing */
+.answers.img-grid .img-option{
+  gap:0 !important;
+}
+
+/* ✅ Bigger floating signs */
+.answers.img-grid .img-option img{
+  width:auto;
+  max-width:280px;   /* 🔥 MAIN SIZE CONTROL */
+  height:auto;
+  display:block;
+
+  border:none !important;
+  background:transparent !important;
+}
+
+/* Tap animation */
+.answers.img-grid .option.img-choice:active{
+  transform:scale(0.96);
+}
+
+/* Selected glow (clean DVSA feel) */
+.answers.img-grid .option.img-choice.selected img{
+  transform:scale(1.08);
+  filter:drop-shadow(0 0 14px rgba(74,163,255,.65));
+}
+</style>
+</head>
+<body>
+  <div id="appScroll">
+  <header>
+    <div class="row header-row">
+
+      <!-- =========================================================
+           NOTE (R2D): Branding
+           - Change the logo file name in src="..." (keep image in same folder or update path).
+           - Change the on-page title in <span id="testTitleText">Template</span>
+           - Tagline text is below (can be edited or removed).
+           ========================================================= -->
+      <h1 class="brand">
+        <!-- NOTE (R2D): Logo file name/path goes here -->
+        <a href="https://reddi2drive.co.uk/practice/" class="r2d-logo-link">
+  <img src="https://reddi2drive.co.uk/wp-content/uploads/2026/01/reddi2drivelogo.png" alt="Reddi2Drive" class="brandLogo">
+</a>
+        <!-- NOTE (R2D): Change this visible test title text (or let JS set it from TEST_TITLE). -->
+        <span id="testTitleText">Template</span>
+      </h1>
+
+      <div class="r2d-tagline" aria-label="Reddi2Learn Reddi2Drive Reddi2Pass">
+        <span class="r2d-word learn">Reddi<span class="two">2</span>Learn</span>
+        <span class="dot">|</span>
+        <span class="r2d-word drive">Reddi<span class="two">2</span>Drive</span>
+        <span class="dot">|</span>
+        <span class="r2d-word pass">Reddi<span class="two">2</span>Pass</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         START SCREEN
+         - Update the intro text here for each test if you want.
+         - Buttons: Start / Shuffle / Reset Best
+         ========================================================= -->
+
+    <section class="card" id="startScreen" style="position:relative; padding-bottom:90px">
+
+
+<div id="reviewLastWrap">
+  <button class="btn ghost" id="reviewLastBtn" type="button">Review Last Attempt</button>
+  <div id="reviewLastMeta"></div>
+</div>
+
+
+      <!-- NOTE (R2D): Start screen intro text (edit per topic) -->
+      <p class="big">Test Your Knowledge</p>
+      <p class="muted">No hints during the test — you’ll get your score and full review at the end.</p>
+
+      
+      <!-- NOTE (R2D): KPI labels (these are the two boxes on the start screen) -->
+<div class="kpi">
+  <div class="box">
+    <p class="n" id="lastScore">—</p>
+    <p class="l">Last attempt score</p>
+  </div>
+  <div class="box">
+    <p class="n" id="bestScore">—</p>
+    <p class="l">Best score achieved</p>
+  </div>
+</div>
+
+    
+
+      <!-- NOTE (R2D): Start screen buttons (text + visibility can be changed here) -->
+      <div class="actions">
+        <button class="btn primary" id="startBtn">Start test</button>
+        
+        <!-- Question count selector (inline) -->
+        <div class="pill" id="qsWrapper" style="display:flex; align-items:center; gap:6px; padding:6px 10px">
+          <span class="muted" style="font-size:12px; font-weight:800;">Questions</span>
+          <!-- ✅ EDIT ME: Question-count dropdown options
+               Change the numbers/options here for each quiz (e.g. 10/25/50/Full).
+               Keep value="full" for the Full option (the script uses it). -->
+          <select id="qsSelect" class="btn ghost" style="padding:6px 8px; font-weight:800; min-width:86px">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="full">Full</option>
+          </select>
+          <span class="muted" id="qsHint" style="font-size:12px;"></span>
+        </div>
+<button class="btn" id="resetBestBtn" title="Clears your saved best score">Reset best</button>
+      </div>
+
+      <p class="small" style="margin-top:10px">
+        UK guidance: always follow signs/markings and local rules for the topic you’re testing.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         QUIZ SCREEN
+         - Shows question, optional image, answer options.
+         - Submit turns into Next after submitting.
+         ========================================================= -->
+
+
+    <!-- =========================================================
+         NOTE (R2D): Quiz screen
+         - Counter format is in #counter (e.g., 1 / 10).
+         - Submit button behaviour is controlled in the script (submit -> next).
+         - The Quit modal copy is lower down.
+         ========================================================= -->
+    <section class="card" id="quizScreen" style="display:none">
+      <div class="row">
+        <div>
+          <span class="tag" id="catTag">Category</span>
+          <span class="muted" id="counter">1 / 10</span>
+        </div>
+        <div class="muted" id="scoreMini">Score: 0</div>
+      </div>
+
+      <div class="progress"><div id="bar"></div></div>
+
+      <h2 class="qTitle" id="qText">…</h2>
+
+     <img id="qImage" class="q-image" src="" alt="Question image">
+      <p class="small" id="imgHint" style="display:none; margin:8px 2px 0">Tap the image to zoom.</p>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="feedback" id="feedback" style="display:none"></div>
+
+ <div class="nav-buttons r2d-nav-row">
+  <button class="btn" id="backBtn">Back</button>
+  <button class="btn primary" id="submitBtn">Submit</button>
+    <span class="r2d-spacer" aria-hidden="true"></span>
+  <button class="btn" id="quitBtn">Quit</button>
+</div>
+    </section>
+
+    <!-- =========================================================
+         RESULTS SCREEN
+         - Shows score, percentage, time.
+         - Buttons: Try again / Review
+         ========================================================= -->
+
+
+    <!-- NOTE (R2D): Results screen text (edit wording per test) -->
+    <section class="card" id="resultsScreen" style="display:none">
+      <p class="big" id="resultTitle">Results</p>
+      <p class="muted" id="resultSub">…</p>
+
+      <div class="kpi">
+        <div class="box">
+          <p class="n" id="finalScore">0 / 10</p>
+          <p class="l">Score</p>
+        </div>
+        <div class="box">
+          <p class="n" id="finalPercent">0%</p>
+          <p class="l">Percentage</p>
+        </div>
+        <div class="box">
+          <p class="n" id="finalTime">—</p>
+          <p class="l">Time</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="retryBtn">Try again</button>
+        <button class="btn" id="reviewBtn">Review</button>
+      </div>
+
+      <p class="small" style="margin-top:10px">
+        Tip: Add to Home Screen (Safari → Share → Add to Home Screen).
+      </p>
+    </section>
+
+    <!-- =========================================================
+         REVIEW SCREEN
+         - Shows each question, your answer vs correct, explanation.
+         - Filter dropdown: All / Incorrect only
+         ========================================================= -->
+
+
+    <!-- NOTE (R2D): Review screen + filter labels (edit wording here) -->
+    <section class="card" id="reviewScreen" style="display:none">
+      <p class="big">Review</p>
+      <p class="muted">Your choice vs the correct answer, plus the explanation.</p>
+      <div class="row" style="margin:12px 0 6px">
+        <div class="pill" style="display:flex; align-items:center; gap:10px">
+          <label for="reviewFilter" class="muted" style="font-size:12px; margin:0">Show:</label>
+          <select id="reviewFilter" class="btn" style="padding:8px 10px; font-weight:800">
+            <option value="all">All questions</option>
+            <option value="wrong">Incorrect only</option>
+          </select>
+        </div>
+        <div class="muted small" id="reviewCount"></div>
+      </div>
+      <div id="reviewList"></div>
+
+      <div class="actions">
+        <button class="btn primary" id="backToResultsBtn">Back to results</button>
+        <button class="btn" id="newAttemptBtn">New attempt</button>
+      </div>
+    </section>
+
+  <!-- NOTE (R2D): Quit confirmation modal text (edit wording here) -->
+  <!-- Quit confirmation modal -->
+  <div id="quitConfirm" class="quit-overlay" style="display:none;">
+    <div class="quit-box" role="dialog" aria-modal="true" aria-labelledby="quitTitle">
+      <p class="quit-title" id="quitTitle">Are you sure?</p>
+      <p class="muted">Your current progress will be lost.</p>
+      <div class="quit-actions">
+        <button class="btn ghost" id="quitNoBtn" type="button">No</button>
+        <button class="btn primary" id="quitYesBtn" type="button">Yes, Quit</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- NOTE (R2D): Resume attempt modal text (edit wording here) -->
+  <!-- Resume Attempt Modal -->
+  <div id="resumeModal" class="quit-overlay" style="display:none;">
+    <div class="quit-box" role="dialog" aria-modal="true" aria-labelledby="resumeTitle">
+      <p class="quit-title" id="resumeTitle">Resume attempt?</p>
+      <p class="muted" id="resumeInfo">…</p>
+      <div class="quit-actions">
+        <button class="btn ghost" id="resumeFreshBtn" type="button">Start fresh</button>
+        <button class="btn primary" id="resumeBtn" type="button">Resume</button>
+      </div>
+    </div>
+  </div>
+
+  </main>
+
+  <div class="zoomOverlay" id="zoomOverlay" aria-hidden="true">
+    <img id="zoomImg" alt="Zoomed question visual" />
+  </div>
+
+<script>
+// =========================================================
+// REDDI2DRIVE QUIZ TEMPLATE SCRIPT
+// ---------------------------------------------------------
+// Sections:
+// 0) Test Settings (title, slug, number of questions)
+// 1) Question Bank (you replace this for each new test)
+// 2) State + helpers (shuffle, storage, UI switching)
+// 3) Quiz engine (render, select, submit/next)
+// 4) Results + review builder
+// 5) iOS/iPad scroll/pull-to-refresh protection
+// =========================================================
+
+// =========================================================
+// 1) QUESTION BANK (EDIT THIS FOR EACH NEW TEST)
+// NOTE (R2D): How to make your question bank unique & traceable
+// - Keep IDs unique (you are already using vru-0001 etc.)
+// - Each question has fp: "..." (your fingerprint). Keep it, or regenerate it per question.
+// - If you add images, put files next to this HTML or update the image path.
+
+// ---------------------------------------------------------
+// Each question object supports:
+// - id: unique string (use a topic prefix like "tl-01", "sp-02", etc.)
+// - category: used for the tag on the quiz + review (optional but recommended)
+// - q: the question text
+// - choices: array of answer strings (A/B/C/D etc.)
+// - correct: index of the correct choice (0-based)
+// - explain: explanation shown in the Review screen
+// - image: filename of an image in the same folder as this HTML (optional)
+// - largeImage / extraLargeImage: set true to increase image size (optional)
+//
+// TIP: Keep filenames consistent (e.g. "tl-q01.png") and put the images in the same GitHub folder.
+// =========================================================
+// =========================================================
+// =========================================================
+// NOTE (R2D): Make this test UNIQUE (critical)
+// 1) Change TEST_TITLE and TEST_SLUG below.
+//    - TEST_SLUG must be UNIQUE per test or scores/resume data will clash.
+// 2) Optionally change QS_PER_ATTEMPT_DEFAULT.
+// =========================================================
+
+
+// =========================================================
+// ✅ EDIT ME WHEN MAKING A NEW QUIZ (ONLY 3 PLACES)
+// ---------------------------------------------------------
+// 1) TITLE
+//    - Change TEST_TITLE below (updates the on-page title + browser tab)
+//    - Keep TEST_SLUG unique per quiz (so saved scores don't clash)
+//
+// 2) QUESTIONS
+//    - Replace the QUESTION_BANK array with your new questions (same format)
+//
+// 3) DROPDOWN NUMBERS (start screen)
+//    - Edit the <select id="qsSelect"> options in the HTML (10/25/50/Full etc.)
+//      You will find it by searching for: id="qsSelect"
+//
+// Nothing else needs changing to publish a new quiz.
+// =========================================================
+
+// 0) TEST SETTINGS (EDIT THESE WHEN YOU COPY THIS TEMPLATE)
+// =========================================================
+// Keep TEST_SLUG unique per test, or scores/resume data will clash between tests.
+const TEST_TITLE = "Template";  // ← CHANGE THIS (on-page + tab title)
+const _titleEl = document.getElementById("testTitleText");
+if (_titleEl) _titleEl.textContent = TEST_TITLE;
+document.title = `Reddi2Drive – ${TEST_TITLE}`;
+       // e.g. "Traffic Lights", "Motorways", "Signs & Markings"
+const TEST_SLUG  = "template";    // ← CHANGE THIS (must be unique per quiz)    // e.g. "traffic-lights", "motorways", "signs"
+// Number of questions per attempt (cannot exceed QUESTION_BANK length)
+const QS_PER_ATTEMPT_DEFAULT = 71;
+// =========================================================
+
+
+// =========================================================
+// ✅ EDIT ME: QUESTION BANK
+// ---------------------------------------------------------
+// Replace everything inside QUESTION_BANK with your new questions.
+// Keep the same object keys you already use: id, category, q, choices, correct,
+// explain, image, fp
+//
+// Example format (keep correct as 0-3 index):
+// {
+//   id: "oru-0001",
+//   category: "Other road users",
+//   q: "Question text...",
+//   choices: ["A","B","C","D"],
+//   correct: 2,
+//   explain: "Explanation...",
+//   image: "",   // or "oru-0001.png"
+//   fp: "R2D-ORU-0001-YYYYMMDD-XXXX"
+// }
+// =========================================================
+
+const QUESTION_BANK = [
+
+{
+id:"r2d-0001",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Maximum speed 20 mph zone with traffic calming",
+"Minimum speed 20 mph with traffic calming",
+"20 cars only parking zone",
+"Only 20 cars allowed at any one time"
+],
+correct:0,
+explain:"This sign indicates a 20 mph zone where traffic calming measures are in place, such as speed humps or chicanes. These areas are often found near schools, residential streets, or places with high pedestrian activity. You should drive cautiously and keep your speed low.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/20limitwithtrafficcalming-scaled.png",
+fp:"r2d_20mph_zone_traffic_calming_001"
+},
+
+{
+id:"r2d-0002",
+category:"rules-of-the-road",
+q:"At traffic lights, what does it mean when the amber light shows on its own?",
+choices:[
+"Prepare to go",
+"Go if the way is clear",
+"Go if no pedestrians are crossing",
+"Stop at the stop line"
+],
+correct:3,
+explain:"A steady amber light means stop at the stop line. The red light will follow next. You may only proceed if you've already crossed the stop line or are too close to stop safely without causing a collision.",
+image:"",
+fp:"r2d_amber_light_stop_002"
+},
+
+{
+id:"r2d-0003",
+category:"rules-of-the-road",
+q:"What does the line across the road at the entrance to a roundabout mean?",
+choices:[
+"Give way to traffic from the right",
+"Traffic from the left has right of way",
+"You have right of way",
+"Stop at the line"
+],
+correct:0,
+explain:"The broken white line at a roundabout means give way. You must give priority to traffic approaching from the right and only proceed when it’s safe. If necessary, stop behind the line until there’s a safe gap.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/roundaboutentrance.png",
+fp:"r2d_roundabout_give_way_line_003"
+},
+
+{
+id:"r2d-0004",
+category:"traffic-signs",
+q:"Where would you find green reflective studs on a motorway?",
+choices:[
+"Separating driving lanes",
+"Between the hard shoulder and the carriageway",
+"At slip-road entrances and exits",
+"Between the carriageway and the central reservation"
+],
+correct:2,
+explain:"Green reflective studs are used at slip-road entrances and exits. They help drivers identify where vehicles may be joining or leaving the motorway, especially in poor visibility conditions.",
+image:"",
+fp:"r2d_green_studs_slip_roads_004"
+},
+
+{
+id:"r2d-0005",
+category:"rules-of-the-road",
+q:"A police car is following you. What should you do if the police officer flashes the headlights and points to the left?",
+choices:[
+"Turn left at the next junction",
+"Pull up on the left",
+"Stop immediately",
+"Move over to the left"
+],
+correct:1,
+explain:"If a police officer signals for you to pull over by flashing headlights and pointing left, you must pull up on the left as soon as it’s safe to do so and switch off your engine.",
+image:"",
+fp:"r2d_police_pull_over_signal_005"
+},
+
+{
+id:"r2d-0006",
+category:"traffic-signs",
+q:"What must you do when you see this sign?",
+choices:[
+"Stop only if traffic is approaching",
+"Stop even if the road is clear",
+"Stop only if children are waiting to cross",
+"Stop only if a red light is showing"
+],
+correct:1,
+explain:"A STOP sign must always be obeyed. You must come to a complete stop at the stop line, even if the road appears clear. These signs are usually placed where visibility is restricted or traffic conditions are hazardous.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/stopsign-scaled.png",
+fp:"r2d_stop_sign_must_stop_006"
+},
+
+{
+id:"r2d-0007",
+category:"rules-of-the-road",
+q:"Which arm signal tells you that the car you're following is going to pull up?",
+choices:[
+"Arm held straight out",
+"Arm moved up and down",
+"Arm moved in a circular motion",
+"Arm held out and bent upwards"
+],
+correct:1,
+explain:"An arm moved up and down (like a patting motion) indicates that the driver intends to slow down or pull up. Drivers may use arm signals when indicators are difficult to see or to make their intentions clearer.",
+image:"",
+fp:"r2d_arm_signal_slowing_pulling_up_007"
+},
+
+{
+id:"r2d-0008",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"End of dual carriageway",
+"Tall bridge",
+"Road narrows",
+"End of narrow bridge"
+],
+correct:0,
+explain:"This sign indicates the end of a dual carriageway. The road ahead becomes a single carriageway, so you should move into the left-hand lane in good time and be aware of oncoming traffic.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/endofdualcarriageway-scaled.png",
+fp:"r2d_end_dual_carriageway_008"
+},
+
+{
+id:"r2d-0009",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Multi-exit roundabout",
+"Risk of ice",
+"Six roads converge",
+"Place of historical interest"
+],
+correct:1,
+explain:"This sign warns of a risk of ice on the road. You should drive with extra care, avoid harsh braking or steering, and be aware that stopping distances can be much longer in icy conditions.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/ice-scaled.png",
+fp:"r2d_risk_of_ice_sign_009"
+},
+
+{
+id:"r2d-0010",
+category:"traffic-signs",
+q:"Which is the sign for a ring road?",
+choices:[
+{ img:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/roundabouts-all-scaled.png"},
+  { img:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/ringroadsmall-scaled.png"},
+  { img:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/miniroundaboutsmall-scaled.png"},
+  { img:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/nostoppingsmall-scaled.png"}
+],
+correct:1,
+explain:"A ring road is indicated by a white letter ‘R’ on a blue background. Ring roads are used to help direct traffic around towns or cities and reduce congestion in the centre.",
+image:"",
+fp:"r2d_ring_road_sign_010"
+},
+
+{
+id:"r2d-0011",
+category:"traffic-signs",
+q:"What does the number on this motorway sign represent?",
+choices:[
+"The distance to the nearest town",
+"The route number of the road",
+"The number of the next junction",
+"The speed limit on the slip road"
+],
+correct:2,
+explain:"The number shown on a motorway sign (often in a small box) indicates the number of the next junction. This helps drivers prepare in advance and move into the correct lane safely.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/motorwayexit-scaled.png",
+fp:"r2d_motorway_junction_number_011"
+},
+
+{
+id:"r2d-0012",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"School crossing patrol",
+"No pedestrians allowed",
+"Pedestrian zone – no vehicles",
+"Zebra crossing ahead"
+],
+correct:3,
+explain:"This sign indicates a zebra crossing ahead. You should be prepared to slow down and stop if someone is waiting at the crossing",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/zebracrossing-scaled.png",
+fp:"r2d_school_crossing_patrol_sign_012"
+},
+
+{
+id:"r2d-0013",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Wait at the barriers",
+"Wait at the crossroads",
+"Give way to trams",
+"Give way to farm vehicles"
+],
+correct:2,
+explain:"This sign means give way to trams. Trams cannot steer to avoid you, so you must give them priority and only proceed when it’s safe.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/givewaytotrams-scaled.png",
+fp:"r2d_give_way_to_trams_013"
+},
+
+{
+id:"r2d-0014",
+category:"road-markings",
+q:"Where would you find these road markings?",
+choices:[
+"At a railway crossing",
+"At a mini-roundabout",
+"On a motorway",
+"On a pedestrian crossing"
+],
+correct:1,
+explain:"These markings are found at mini-roundabouts. They indicate the direction vehicles should travel around the central marking, which you must pass on the correct side.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/miniroundaboutmarkings-scaled.png",
+fp:"r2d_mini_roundabout_markings_014"
+},
+
+{
+id:"r2d-0015",
+category:"rules-of-the-road",
+q:"When may you sound your vehicle’s horn?",
+choices:[
+"To give you right of way",
+"To attract a friend's attention",
+"To warn others of your presence",
+"To make slower drivers move over"
+],
+correct:2,
+explain:"You may use your horn only to warn other road users of your presence. It must not be used aggressively, in built-up areas between 11:30 pm and 7:00 am, or when stationary unless there is danger.",
+image:"",
+fp:"r2d_horn_warning_only_015"
+},
+
+{
+id:"r2d-0016",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Through traffic to use left lane",
+"Left-hand lane for T-junction only",
+"Left-hand lane closed ahead",
+"11 tonne weight limit"
+],
+correct:2,
+explain:"This sign warns that the right-hand lane is closed ahead. You should move into the available lanes in good time. When traffic is slow, merging in turn is recommended, but at higher speeds you should merge early.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/motorwaygantryleftlaneclosed-scaled.png",
+fp:"r2d_right_lane_closed_016"
+},
+
+{
+id:"r2d-0017",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"End of motorway",
+"End of restriction",
+"Lane ends ahead",
+"Free recovery ends"
+],
+correct:1,
+explain:"This sign indicates the end of a temporary restriction, such as those used at roadworks. It is often seen after signs with flashing amber lights, showing that normal conditions now resume.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/motorwaygantryend-scaled.png",
+fp:"r2d_end_of_restriction_017"
+},
+
+{
+id:"r2d-0018",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Quayside or river bank",
+"Steep hill downwards",
+"Uneven road surface",
+"Road liable to flooding"
+],
+correct:0,
+explain:"This sign warns that you are approaching a quayside or river bank. The road may be slippery, and there could be a steep drop into water with little or no barrier, so extra care is needed.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/riverbank-scaled.png",
+fp:"r2d_quayside_river_bank_018"
+},
+
+{
+id:"r2d-0019",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Two-way traffic straight ahead",
+"Two-way traffic crosses a one-way road",
+"Two-way traffic over a bridge",
+"Two-way traffic crosses a two-way road"
+],
+correct:1,
+explain:"This sign warns that two-way traffic will be crossing your one-way road. Be prepared for vehicles joining from both sides and take care when approaching the junction.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/twowaytraffic1-scaled.png",
+fp:"r2d_two_way_crosses_one_way_019"
+},
+
+{
+id:"r2d-0020",
+category:"traffic-signs",
+q:"What does a sign with a brown background show?",
+choices:[
+"Tourist directions",
+"Primary roads",
+"Motorway routes",
+"Minor roads"
+],
+correct:0,
+explain:"Brown signs are used for tourist information. They direct drivers to places of interest such as attractions, landmarks, and leisure facilities.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/touristattraction--scaled.png",
+fp:"r2d_brown_sign_tourist_020"
+},
+
+{
+id:"r2d-0021",
+category:"rules-of-the-road",
+q:"What's the national speed limit on a single carriageway road?",
+choices:[
+"50 mph",
+"60 mph",
+"40 mph",
+"70 mph"
+],
+correct:1,
+explain:"The national speed limit on a single carriageway road for cars and motorcycles is 60 mph, unless otherwise indicated by signs. Always adjust your speed based on road and traffic conditions.",
+image:"",
+fp:"r2d_single_carriageway_speed_limit_021"
+},
+
+{
+id:"r2d-0022",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Hump bridge",
+"Humps in the road",
+"Entrance to tunnel",
+"Soft verges"
+],
+correct:1,
+explain:"This sign warns of humps in the road, often used as traffic-calming measures in residential areas. You should slow down to an appropriate speed to maintain control and comfort.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/humps-scaled.png",
+fp:"r2d_road_humps_sign_022"
+},
+
+{
+id:"r2d-0023",
+category:"rules-of-the-road",
+q:"You see this amber light at the traffic lights ahead. Which light/lights will come next?",
+choices:[
+"Red alone",
+"Red and amber together",
+"Green and amber together",
+"Green alone"
+],
+correct:0,
+explain:"You may proceed only when the green light is showing, provided the road ahead is clear and no pedestrians are crossing. Red, amber, and red+amber all mean stop.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/ambertrafficlight-scaled.png",
+fp:"r2d_traffic_lights_green_go_023"
+},
+
+{
+id:"r2d-0024",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Hump bridge",
+"Traffic-calming hump",
+"Low bridge",
+"Uneven road"
+],
+correct:0,
+explain:"This sign warns of a hump bridge ahead. Your view may be restricted and the road could be narrow. Slow down and be prepared for oncoming traffic. If visibility is very limited, you may need to sound your horn to warn others.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/humpbackbridge-scaled.png",
+fp:"r2d_hump_bridge_sign_024"
+},
+
+{
+id:"r2d-0025",
+category:"rules-of-the-road",
+q:"You're on a motorway. What should you do if there's a red cross showing on the signs above your lane only?",
+choices:[
+"Continue in that lane and look for further information",
+"Do not continue in that lane",
+"Pull onto the hard shoulder",
+"Stop and wait for an instruction to proceed"
+],
+correct:1,
+explain:"A red cross above a lane means that lane is closed. You must move out of that lane as soon as it is safe to do so. Continuing in a closed lane is dangerous and illegal.",
+image:"",
+fp:"r2d_motorway_red_cross_lane_closed_025"
+},
+
+{
+id:"r2d-0026",
+category:"traffic-signs",
+q:"Which shape is used for a 'give way' sign?",
+choices:[
+"An upward-pointing triangle",
+"A downward-pointing triangle",
+"A circle",
+"A rectangle"
+],
+correct:1,
+explain:"A 'give way' sign is an inverted (downward-pointing) triangle. This unique shape helps drivers recognise it quickly and understand they must give priority to traffic on the road ahead.",
+image:"",
+fp:"r2d_give_way_triangle_shape_026"
+},
+
+{
+id:"r2d-0027",
+category:"road-markings",
+q:"What do these zigzag white lines mean?",
+choices:[
+"No parking at any time",
+"Parking allowed only for a short time",
+"Slow down to 20 mph",
+"Sounding horns is not allowed"
+],
+correct:0,
+explain:"Zigzag lines at pedestrian crossings mean no parking or stopping. They are there to keep the crossing area clear so pedestrians and drivers can see each other safely.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/whitezigzags.png",
+fp:"r2d_zigzag_lines_no_parking_027"
+},
+
+{
+id:"r2d-0028",
+category:"traffic-signs",
+q:"You're in a tunnel and you see this sign. What does it mean?",
+choices:[
+"Direction to emergency pedestrian exit",
+"Beware of pedestrians: no footpath ahead",
+"No access for pedestrians",
+"Beware of pedestrians crossing ahead"
+],
+correct:0,
+explain:"This sign shows the direction to an emergency pedestrian exit in a tunnel. If you need to leave your vehicle in an emergency, follow these signs to reach the nearest exit safely.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/directiontoemergencyexit-scaled.png",
+fp:"r2d_tunnel_emergency_exit_028"
+},
+
+{
+id:"r2d-0029",
+category:"rules-of-the-road",
+q:"How should you give an arm signal to turn left?",
+choices:[
+"Extend your right arm and move it up and down",
+"Extend your right arm straight out",
+"Extend your right arm and move it in a circular motion",
+"Extend your right arm and bend it upwards"
+],
+correct:1,
+explain:"To signal a left turn using an arm signal, extend your right arm straight out horizontally. This clearly shows other road users your intention to turn left.",
+image:"",
+fp:"r2d_arm_signal_turn_left_029"
+},
+
+{
+id:"r2d-0030",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Side winds",
+"Road noise",
+"Airport",
+"Adverse camber"
+],
+correct:0,
+explain:"This sign warns of side winds. You should be prepared for sudden gusts, especially on exposed roads or when passing high-sided vehicles.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/crosswinds-scaled.png",
+fp:"r2d_side_winds_sign_030"
+},
+
+{
+id:"r2d-0031",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Compulsory maximum speed limit",
+"Advisory maximum speed limit",
+"Compulsory minimum speed limit",
+"Advised separation distance"
+],
+correct:1,
+explain:"This sign gives an advisory maximum speed. It’s a warning to slow down due to conditions ahead, such as roadworks or hazards, but it is not legally enforceable like a red-bordered speed limit sign.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/compulsoryspeedlimit-scaled.png",
+fp:"r2d_advisory_speed_limit_031"
+},
+
+{
+id:"r2d-0032",
+category:"rules-of-the-road",
+q:"You're approaching traffic lights and the red light is showing. What signal will show next?",
+choices:[
+"Red and amber",
+"Green alone",
+"Amber alone",
+"Green and amber"
+],
+correct:0,
+explain:"After a red light, the next signal is red and amber together. This tells you to prepare to move, but you must not go until the green light shows.",
+image:"",
+fp:"r2d_traffic_lights_sequence_032"
+},
+
+{
+id:"r2d-0033",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Level crossing with gate or barrier",
+"Gated road ahead",
+"Level crossing without gate or barrier",
+"Cattle grid ahead"
+],
+correct:0,
+explain:"This sign warns of a level crossing with a gate or barrier. You must take extra care: stop, look both ways, listen, and only cross when you are sure it is safe.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/levelcrossing-scaled.png",
+fp:"r2d_level_crossing_barrier_033"
+},
+
+{
+id:"r2d-0034",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Ring road",
+"Mini-roundabout",
+"No vehicles",
+"Roundabout"
+],
+correct:3,
+explain:"This sign indicates a roundabout ahead. You should slow down, assess traffic from the right, and position your vehicle correctly depending on your intended exit.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/roundabout-scaled.png",
+fp:"r2d_roundabout_warning_sign_034"
+},
+
+{
+id:"r2d-0035",
+category:"road-markings",
+q:"What does the white line along the side of the road indicate?",
+choices:[
+"The edge of the carriageway",
+"The approach to a hazard",
+"No parking",
+"No overtaking"
+],
+correct:0,
+explain:"A continuous white line along the side of the road marks the edge of the carriageway. It helps drivers position their vehicle correctly, especially in poor visibility.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/edgeofthecarriageway.png",
+fp:"r2d_edge_of_carriageway_line_035"
+},
+
+{
+id:"r2d-0036",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"You have priority",
+"No motor vehicles",
+"Two-way traffic",
+"No overtaking"
+],
+correct:3,
+explain:"This sign means no overtaking. It is used where overtaking would be dangerous, such as on bends or narrow roads. You must not pass the vehicle in front.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/noovertaking-scaled.png",
+fp:"r2d_no_overtaking_sign_036"
+},
+
+{
+id:"r2d-0037",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"Service area 30 miles ahead",
+"Maximum speed 30 mph",
+"Minimum speed 30 mph",
+"Lay-by 30 miles ahead"
+],
+correct:2,
+explain:"This sign shows a minimum speed limit of 30 mph. It is used where slow-moving vehicles could cause danger or disrupt traffic flow, such as in tunnels. You should maintain at least this speed unless conditions require you to slow down.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/minimumspeed30-scaled.png",
+fp:"r2d_minimum_speed_30_037"
+},
+
+{
+id:"r2d-0038",
+category:"traffic-signs",
+q:"What's the meaning of this traffic sign?",
+choices:[
+"End of two-way road",
+"Give priority to vehicles coming towards you",
+"You have priority over vehicles coming towards you",
+"Bus lane ahead"
+],
+correct:2,
+explain:"This sign indicates that you have priority over oncoming vehicles. However, you should still proceed with caution and make sure that the other vehicles are giving way before continuing.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/priorityoveroncomingtraffic-scaled.png",
+fp:"r2d_priority_over_oncoming_038"
+},
+
+{
+id:"r2d-0039",
+category:"traffic-signs",
+q:"What does this sign mean?",
+choices:[
+"With-flow bus and cycle lane",
+"Contraflow bus and cycle lane",
+"No buses or cycles allowed",
+"No waiting for buses and cycles"
+],
+correct:0,
+explain:"This sign indicates a with-flow bus and cycle lane. Buses and cycles travel in the same direction as other traffic, often using a dedicated lane. Be aware they may pass you on the left.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/bus-lane-scaled.png",
+fp:"r2d_with_flow_bus_cycle_lane_039"
+},
+
+{
+id:"r2d-0040",
+category:"rules-of-the-road",
+q:"What should you do when you see this sign as you travel along a motorway?",
+choices:[
+"Leave the motorway at the next exit",
+"Turn left immediately",
+"Change lane",
+"Move onto the hard shoulder"
+],
+correct:0,
+explain:"You'll see this sign if the motorway is closed ahead. Pull into the left-hand lane as soon as it's safe to do so. Do not wait until the last moment before you move across, because the lane may be busy and you'll have to rely on another driver making room for you.",
+image:"https://reddi2drive.co.uk/wp-content/uploads/2026/03/leavemotorway-scaled.png",
+fp:"r2d_motorway_closed_move_left_040"
+},
+
+
+{id:"template-0001",category:"Template",
+q:"This is a placeholder question?",
+choices:[
+"Option 1",
+"Option 2",
+"Option 3",
+"Option 4"
+],
+correct:0,
+explain:"This is a placeholder explanation",
+image:"",
+fp:"this is a unique fingerprint example for the question"},
+
+{id:"template-0002",category:"Template",
+q:"This is a placeholder question where images are used for answers?",
+choices:[
+  { img:"Placeholder Image Answer 1"},
+  { img:"Placeholder Image Answer 2"},
+  { img:"Placeholder Image Answer 3"},
+  { img:"Placeholder Image Answer 4"}
+],
+correct:1,
+explain:"This is a placeholder explanation",
+image:"",
+fp:"this is a unique fingerprint example for the question"}
+
+
+];
+
+const el = (id) => document.getElementById(id);
+const appScroll = document.getElementById("appScroll");
+const startScreen = el("startScreen");
+const quizScreen = el("quizScreen");
+const resultsScreen = el("resultsScreen");
+const reviewScreen = el("reviewScreen");
+
+const startBtn = el("startBtn");
+const shuffleBtn = el("shuffleBtn");
+const resetBestBtn = el("resetBestBtn");
+const bestScore = el("bestScore");
+const lastScore = el("lastScore");
+
+const catTag = el("catTag");
+const counter = el("counter");
+const qText = el("qText");
+const answers = el("answers");
+const feedback = el("feedback");
+const submitBtn = el("submitBtn");
+const backBtn = el("backBtn");
+const quitBtn = el("quitBtn");
+
+const quitConfirm = el("quitConfirm");
+const quitYesBtn = el("quitYesBtn");
+const quitNoBtn  = el("quitNoBtn");
+const resumeModal = el("resumeModal");
+const resumeBtn = el("resumeBtn");
+const resumeFreshBtn = el("resumeFreshBtn");
+const resumeInfo = el("resumeInfo");
+
+const bar = el("bar");
+const scoreMini = el("scoreMini");
+scoreMini.style.display = "none";
+
+const qImg = el("qImage");
+const imgHint = el("imgHint");
+const zoomOverlay = el("zoomOverlay");
+const zoomImg = el("zoomImg");
+
+const resultTitle = el("resultTitle");
+const resultSub = el("resultSub");
+const finalScore = el("finalScore");
+const finalPercent = el("finalPercent");
+const finalTime = el("finalTime");
+
+const retryBtn = el("retryBtn");
+const reviewBtn = el("reviewBtn");
+
+const reviewList = el("reviewList");
+const reviewFilter = el("reviewFilter");
+const reviewCount = el("reviewCount");
+const backToResultsBtn = el("backToResultsBtn");
+const newAttemptBtn = el("newAttemptBtn");
+
+
+// =========================================================
+// NOTE (R2D): Local storage keys (scores + resume)
+// These depend on TEST_SLUG. If you duplicate this file, update TEST_SLUG.
+// =========================================================
+const STORAGE_BEST = `r2d_${TEST_SLUG}_best`;
+const STORAGE_ATTEMPT = `r2d_${TEST_SLUG}_attempt_v1`;
+
+const STORAGE_LAST_REVIEW = `r2d_${TEST_SLUG}_last_review`;
+const STORAGE_QS = `r2d_${TEST_SLUG}_qs`;
+
+// =========================================================
+// R2D PRACTICE DASHBOARD STATS + MASTERY (TEMPLATE)
+// ---------------------------------------------------------
+// This writes progress into localStorage so your Practice page can show:
+// - Best / Last / Attempts (%)
+// - Mastered (unique questions ever answered correctly)
+// Keys are derived from TEST_SLUG (keep TEST_SLUG unique per test).
+// =========================================================
+const R2D_PRACTICE_STATS_KEY        = `r2d_${TEST_SLUG.replace(/-/g,"_")}`;  // e.g. r2d_staying_alert                 // e.g. r2d_staying_alert
+const R2D_MASTERY_STATS_KEY         = `r2d_${TEST_SLUG}_mastery_stats_v1`;  // e.g. r2d_staying-alert_mastery_stats_v1 // e.g. r2d_staying-alert_mastery_stats_v1
+const R2D_MASTERY_MAP_KEY           = `r2d_${TEST_SLUG}_mastery_map_v1`;    // e.g. r2d_staying-alert_mastery_map_v1   // e.g. r2d_staying-alert_mastery_map_v1
+
+function r2dSavePracticeStats(storageKey, score, total){
+  try{
+    const existing = JSON.parse(localStorage.getItem(storageKey)) || { best: "0%", attempts: 0 };
+    const percent = Math.round((score / total) * 100);
+
+    const bestNum = parseInt(String(existing.best || "0").replace("%",""), 10);
+    const safeBest = Number.isFinite(bestNum) ? bestNum : 0;
+
+    const updated = {
+      last: percent + "%",
+      best: Math.max(safeBest, percent) + "%",
+      attempts: (existing.attempts || 0) + 1
+    };
+
+    localStorage.setItem(storageKey, JSON.stringify(updated));
+  }catch(e){}
+}
+
+function r2dLoadMasteryMap(mapKey){
+  try{
+    const raw = localStorage.getItem(mapKey);
+    const obj = raw ? JSON.parse(raw) : {};
+    return (obj && typeof obj === "object") ? obj : {};
+  }catch{
+    return {};
+  }
+}
+
+function r2dSaveMasteryFromAttempt(){
+  // Mark any correctly-answered questions as "mastered"
+  const map = r2dLoadMasteryMap(R2D_MASTERY_MAP_KEY);
+
+  for (let i = 0; i < attempt.length; i++){
+    const p = picked[i];
+    if (!p) continue;
+    if (p.choiceIndex === attempt[i].correct){
+      const qid = attempt[i].id;
+      if (qid) map[qid] = true;
+    }
+  }
+
+  // Count mastered across the FULL bank (not just this attempt)
+  const total = QUESTION_BANK.length;
+  let mastered = 0;
+  for (const q of QUESTION_BANK){
+    if (q && q.id && map[q.id]) mastered++;
+  }
+
+  localStorage.setItem(R2D_MASTERY_MAP_KEY, JSON.stringify(map));
+  localStorage.setItem(R2D_MASTERY_STATS_KEY, JSON.stringify({
+    mastered,
+    total,
+    updatedAt: Date.now()
+  }));
+}
+
+
+function saveLastReview(){
+  try{
+    localStorage.setItem(STORAGE_LAST_REVIEW, JSON.stringify({
+      savedAt: Date.now(),
+      attempt,
+      picked
+    }));
+  }catch(e){}
+}
+
+function loadLastReview(){
+  try{
+    const raw = localStorage.getItem(STORAGE_LAST_REVIEW);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || !Array.isArray(s.attempt) || !Array.isArray(s.picked)) return null;
+    return s;
+  }catch{
+    return null;
+  }
+}
+
+function showLastReviewButton(){
+  const wrap = document.getElementById("reviewLastWrap");
+  const meta = document.getElementById("reviewLastMeta");
+  const btn  = document.getElementById("reviewLastBtn");
+  if (!wrap || !btn) return;
+
+  const s = loadLastReview();
+  if (!s){
+    wrap.style.display = "none";
+    return;
+  }
+
+  if (meta) meta.textContent = new Date(s.savedAt).toLocaleString();
+  wrap.style.display = "block";
+
+  btn.onclick = () => {
+    attempt = s.attempt;
+    picked  = s.picked;
+    buildReview("all");
+    show(reviewScreen);
+  };
+}
+
+let attempt = [];
+let idx = 0;
+let score = 0;
+let picked = [];
+let currentSelected = null;
+let startedAt = null;
+let qsPerAttempt = QS_PER_ATTEMPT_DEFAULT;
+
+let submitMode = 'submit'; // 'submit' or 'next'
+
+
+function setSubmitButton(mode){
+  submitMode = mode;
+  if (mode === 'submit'){
+    submitBtn.textContent = 'Submit';
+    submitBtn.classList.add('primary');
+    submitBtn.classList.remove('next-state');
+  } else {
+    submitBtn.textContent = 'Next';
+    submitBtn.classList.remove('primary');
+    submitBtn.classList.add('next-state');
+  }
+}
+
+
+
+function choiceDisplay(choice){
+  if (choice && typeof choice === "object"){
+    // Prefer label/text for display; fall back to filename
+    if (choice.label) return String(choice.label);
+    if (choice.text) return String(choice.text);
+    if (choice.alt)  return String(choice.alt);
+    if (choice.img)  return String(choice.img).split("/").pop();
+    return "—";
+  }
+  return String(choice);
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[s]));
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i=a.length-1; i>0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function saveAttempt(){
+  try{
+    const state = {
+      v: 1,
+      savedAt: Date.now(),
+      idx,
+      score,
+      picked,
+      attempt,
+      startedAt: startedAt ? new Date(startedAt).toISOString() : null
+    };
+    localStorage.setItem(STORAGE_ATTEMPT, JSON.stringify(state));
+  }catch(e){
+    console.warn("Could not save attempt", e);
+  }
+}
+
+function loadAttempt(){
+  try{
+    const raw = localStorage.getItem(STORAGE_ATTEMPT);
+    if (!raw) return null;
+    const state = JSON.parse(raw);
+    if (!state || state.v !== 1) return null;
+    return state;
+  }catch{
+    return null;
+  }
+}
+
+function clearAttempt(){
+  localStorage.removeItem(STORAGE_ATTEMPT);
+}
+
+function checkForResume(){
+  const state = loadAttempt();
+  if (!state || !Array.isArray(state.attempt) || typeof state.idx !== "number") return false;
+  if (state.idx < 0 || state.idx >= state.attempt.length) return false;
+
+  // If it's basically a fresh attempt with no answers, only prompt if they've actually started
+  const hasProgress = Array.isArray(state.picked) && state.picked.some(p => p !== null && p !== undefined);
+  if (!hasProgress) return false;
+
+  const minsAgo = Math.max(0, Math.round((Date.now() - (state.savedAt || Date.now())) / 60000));
+  if (resumeInfo){
+    resumeInfo.textContent = `You were on question ${state.idx + 1}. Saved ${minsAgo === 0 ? "just now" : minsAgo + " min ago"}.`;
+  }
+  if (resumeModal) resumeModal.style.display = "flex";
+  return true;
+}
+
+if (resumeBtn){
+  resumeBtn.addEventListener("click", () => {
+    const state = loadAttempt();
+    if (!state) return;
+    // restore state
+    attempt = state.attempt;
+    idx = state.idx;
+    score = state.score || 0;
+    picked = Array.isArray(state.picked) ? state.picked : Array(attempt.length).fill(null);
+    startedAt = state.startedAt ? new Date(state.startedAt) : new Date();
+
+    if (resumeModal) resumeModal.style.display = "none";
+    show(quizScreen);
+    render();
+  });
+}
+
+if (resumeFreshBtn){
+  resumeFreshBtn.addEventListener("click", () => {
+    clearAttempt();
+    if (resumeModal) resumeModal.style.display = "none";
+    loadStats();
+    buildAttempt();
+    show(quizScreen);
+    render();
+  });
+}
+
+// Tap outside the box closes (does not clear anything)
+if (resumeModal){
+  resumeModal.addEventListener("click", (e) => {
+    if (e.target === resumeModal) resumeModal.style.display = "none";
+  });
+}
+function show(screen){
+  startScreen.style.display="none";
+  quizScreen.style.display="none";
+  resultsScreen.style.display="none";
+  reviewScreen.style.display="none";
+  screen.style.display="block";
+  if (appScroll) appScroll.scrollTo({top:0, behavior:"smooth"});
+}
+function loadStats(){
+  // Load saved question count (or default) and clamp to bank size
+  const saved = localStorage.getItem(STORAGE_QS);
+  let desired = saved ? Number(saved) : QS_PER_ATTEMPT_DEFAULT;
+  if (!Number.isFinite(desired) || desired < 1) desired = QS_PER_ATTEMPT_DEFAULT;
+
+  qsPerAttempt = Math.min(desired, QUESTION_BANK.length);
+
+  const best = Number(localStorage.getItem(STORAGE_BEST) || 0);
+  const last = Number(localStorage.getItem(`r2d_${TEST_SLUG}_last`) || 0);
+
+  bestScore.textContent = best ? `${best} / ${qsPerAttempt}` : "—";
+  lastScore.textContent = last ? `${last} / ${qsPerAttempt}` : "—";
+
+  // Sync dropdown UI (start screen)
+  const qsSelect = document.getElementById("qsSelect");
+  const qsHint   = document.getElementById("qsHint");
+  if (qsSelect){
+    const full = QUESTION_BANK.length;
+    const fullOpt = qsSelect.querySelector('option[value="full"]');
+    if (fullOpt) fullOpt.textContent = `Full (${full})`;
+    qsSelect.value = (qsPerAttempt === full) ? "full" : String(qsPerAttempt);
+  }
+  if (qsHint){
+    qsHint.textContent = `(${qsPerAttempt} per attempt)`;
+  }
+}
+
+function buildAttempt(){
+  qsPerAttempt = Math.min(qsPerAttempt, QUESTION_BANK.length);
+  const pool = shuffle(QUESTION_BANK);
+  const selected = pool.slice(0, qsPerAttempt).map(q => {
+    // Support BOTH:
+    // - choices: ["Text A","Text B",...]
+    // - choices: [{img:"...", label:"..."}, ...]
+    const mapped = (q.choices || []).map((choice, i) => ({ choice, originalIndex:i }));
+    const shuffled = shuffle(mapped);
+    const newCorrect = shuffled.findIndex(x => x.originalIndex === q.correct);
+    return { ...q, choices: shuffled.map(x => x.choice), correct: newCorrect };
+  });
+
+  attempt = selected;
+  idx = 0;
+  score = 0;
+  picked = Array(attempt.length).fill(null);
+  startedAt = new Date();
+  saveAttempt();
+}
+function setImage(src, isLarge, isXLarge){
+  // reset sizing class each time
+  qImg.className = "q-image" + (isLarge ? " large" : "") + (isXLarge ? " xlarge" : "");
+  if (!src){
+    qImg.style.display = "none";
+    imgHint.style.display = "none";
+    qImg.removeAttribute("src");
+    return;
+  }
+  qImg.style.display = "block";
+  imgHint.style.display = "block";
+  qImg.src = src;
+}
+
+
+qImg.addEventListener("click", () => {
+  if (!qImg.getAttribute("src")) return;
+  zoomImg.src = qImg.src;
+  zoomOverlay.style.display = "flex";
+  zoomOverlay.setAttribute("aria-hidden","false");
+});
+zoomOverlay.addEventListener("click", () => {
+  zoomOverlay.style.display = "none";
+  zoomOverlay.setAttribute("aria-hidden","true");
+  zoomImg.removeAttribute("src");
+});
+
+function render(){
+  const q = attempt[idx];
+  catTag.textContent = q.category || "Category";
+  counter.textContent = `Question ${idx+1}`;
+  qText.textContent = q.q;
+
+  // Hide running score so users don't know results until the end
+  scoreMini.textContent = "";
+
+  // Progress shows where you are in the quiz (not your score)
+  bar.style.width = `${Math.round((idx/attempt.length)*100)}%`;
+
+  const isLarge = !!(q.largeImage ?? q.largeimage);
+  const isXLarge = !!(q.extraLargeImage ?? q.extraLargeimage ?? q.xlargeImage ?? q.xlargeimage);
+  setImage(q.image, isLarge, isXLarge);
+
+  answers.innerHTML = "";
+  feedback.style.display = "none"; // no per-question feedback
+  feedback.className = "feedback";
+
+  currentSelected = null;
+  setSubmitButton('submit');
+  submitBtn.disabled = true;
+
+  // If any choice is an image-choice object, switch to 2x2 grid layout
+  const hasImgChoices = (q.choices || []).some(c => c && typeof c === "object" && c.img);
+  answers.classList.toggle("img-grid", !!hasImgChoices);
+
+  q.choices.forEach((choice, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "option" + ((choice && typeof choice === "object" && choice.img) ? " img-choice" : "");
+
+    if (choice && typeof choice === "object" && choice.img){
+      const lbl = choice.label || choice.text || "";
+      b.innerHTML = `
+        <div class="img-option">
+          <img src="${escapeHtml(choice.img)}" alt="${escapeHtml(lbl)}">
+          ${lbl ? `<div class="img-label">${escapeHtml(lbl)}</div>` : ""}
+        </div>
+      `;
+      b.setAttribute("aria-label", lbl || "Image option");
+    } else {
+      b.textContent = String(choice);
+    }
+
+    b.addEventListener("click", () => selectOption(i));
+    answers.appendChild(b);
+  });
+
+  // If this question was already submitted (e.g. user pressed Back), show it locked
+  if (picked[idx] !== null && picked[idx] !== undefined){
+    const chosen = picked[idx].choiceIndex;
+    lockSubmitted(chosen);
+    setSubmitButton('next');
+    submitBtn.disabled = false;
+    bar.style.width = `${Math.round(((idx+1)/attempt.length)*100)}%`;
+  }
+}
+
+function selectOption(selectedIndex){
+  // allow changing mind until submitted
+  if (picked[idx] !== null && picked[idx] !== undefined) return;
+
+  currentSelected = selectedIndex;
+  submitBtn.disabled = false;
+
+  [...answers.querySelectorAll("button.option")].forEach((btn, i) => {
+    btn.classList.toggle("selected", i === selectedIndex);
+  });
+}
+
+function lockSubmitted(selectedIndex){
+  [...answers.querySelectorAll("button.option")].forEach((btn, i) => {
+    btn.disabled = true;
+    btn.classList.toggle("selected", i === selectedIndex);
+  });
+}
+
+function submitCurrent(){
+  if (currentSelected === null) return;
+
+  // lock in answer for this question
+  picked[idx] = { choiceIndex: currentSelected };
+
+  lockSubmitted(currentSelected);
+  setSubmitButton('next');
+  submitBtn.disabled = false;
+  bar.style.width = `${Math.round(((idx+1)/attempt.length)*100)}%`;
+  saveAttempt();
+}
+
+function finish(){
+  const total = attempt.length;
+
+  // Calculate score only at the end (no feedback during the quiz)
+  score = picked.reduce((s, p, i) => {
+    if (!p) return s;
+    return s + (p.choiceIndex === attempt[i].correct ? 1 : 0);
+  }, 0);
+
+  const pct = Math.round((score/total)*100);
+  const elapsedMs = new Date() - startedAt;
+  const mins = Math.floor(elapsedMs/60000);
+  const secs = Math.floor((elapsedMs%60000)/1000);
+  const timeStr = `${mins}m ${secs}s`;
+
+  finalScore.textContent = `${score} / ${total}`;
+  finalPercent.textContent = `${pct}%`;
+  finalTime.textContent = timeStr;
+
+  let title, sub;
+  if (pct >= 90){
+    title = "Excellent knowledge 💪";
+    sub = "Keep it sharp by practising in real situations and revisiting any tricky areas.";
+  } else if (pct >= 70){
+    title = "Good work — a few gaps to tighten up ✅";
+    sub = "Review the questions you missed and focus on the rules that caught you out.";
+  } else if (pct >= 50){
+    title = "Not bad — let’s build consistency 🔁";
+    sub = "Slow down, read each question carefully, and learn the patterns behind the correct answers.";
+  } else {
+    title = "Let’s nail the foundations 🧱";
+    sub = "Use the review explanations, then try again. Consistency beats guessing.";
+  }
+  resultTitle.textContent = title;
+  resultSub.textContent = sub;
+
+localStorage.setItem(`r2d_${TEST_SLUG}_last`, String(score));
+  
+  const best = Number(localStorage.getItem(STORAGE_BEST) || 0);
+  if (score > best){
+    localStorage.setItem(STORAGE_BEST, String(score));
+  }
+
+  // ---- Practice dashboard stats + mastery ----
+  try{
+    r2dSavePracticeStats(R2D_PRACTICE_STATS_KEY, score, total);
+    r2dSaveMasteryFromAttempt();
+  }catch(e){
+    console.warn("R2D practice tracking failed", e);
+  }
+
+  loadStats();
+
+  saveLastReview();
+
+  clearAttempt();
+
+    show(resultsScreen);
+}
+
+ function renderChoice(choice){
+  if (choice && typeof choice === "object" && choice.img){
+    const lbl = choice.label || choice.text || "";
+    return `
+      <div class="img-option" style="margin-top:6px">
+        <img src="${escapeHtml(choice.img)}" alt="${escapeHtml(lbl)}" style="max-width:120px">
+        ${lbl ? `<div class="img-label">${escapeHtml(lbl)}</div>` : ""}
+      </div>
+    `;
+  }
+  return `<strong>${escapeHtml(String(choice))}</strong>`;
+}
+
+function buildReview(filter = 'all'){
+  reviewList.innerHTML = "";
+  let shown = 0;
+
+  attempt.forEach((q, i) => {
+    const p = picked[i];
+  const you = p ? renderChoice(q.choices[p.choiceIndex]) : "—";
+const correct = renderChoice(q.choices[q.correct]);
+    const ok = p ? (p.choiceIndex === q.correct) : false;
+
+    if (filter === "wrong" && ok) return;
+
+    shown += 1;
+
+    const div = document.createElement("div");
+    div.className = "reviewItem";
+    div.innerHTML = `
+      <div class="row">
+        <div>
+          <strong>${escapeHtml(q.q)}</strong>
+        </div>
+        <div class="result ${ok ? "ok" : "bad"}">${ok ? "✓" : "✕"}</div>
+      </div>
+      ${q.image ? `<img class="q-image review-image${q.largeImage ? " large" : ""}${q.extraLargeImage ? " xlarge" : ""}" alt="Question visual" src="${escapeHtml(q.image)}">` : ""}
+      <div class="small" style="margin-top:8px">
+      <div><span class="muted">You chose:</span> ${you}</div>
+<div><span class="muted">Correct:</span> ${correct}</div>
+      </div>
+      <div class="hint">${escapeHtml(q.explain || "")}</div>
+    `;
+    reviewList.appendChild(div);
+  });
+
+  if (reviewCount) reviewCount.textContent = `${shown} shown`;
+}
+
+startBtn.addEventListener("click", () => {
+  loadStats();
+  if (checkForResume()) return;
+  buildAttempt();
+  show(quizScreen);
+  render();
+});
+resetBestBtn.addEventListener("click", () => {
+  localStorage.removeItem(STORAGE_BEST);
+  loadStats();
+});
+
+
+function goNext(){
+  // must submit before moving on
+  if (!picked[idx]) return;
+
+  if (idx < attempt.length - 1){
+    idx += 1;
+    saveAttempt();
+    render();
+  } else {
+    finish();
+  }
+}
+
+submitBtn.addEventListener("click", () => {
+  if (submitMode === "submit"){
+    submitCurrent();
+  } else {
+    goNext();
+  }
+});
+
+backBtn.addEventListener("click", () => {
+  if (idx > 0){
+    idx -= 1;
+    render();
+  } else {
+    show(startScreen);
+    showLastReviewButton();
+  }
+});
+quitBtn.addEventListener("click", () => {
+  if (!quitConfirm) { show(startScreen); showLastReviewButton(); return; }
+  quitConfirm.style.display = "flex";
+});
+
+if (quitNoBtn){
+  quitNoBtn.addEventListener("click", () => {
+    quitConfirm.style.display = "none";
+  });
+}
+
+if (quitYesBtn){
+  quitYesBtn.addEventListener("click", () => {
+    quitConfirm.style.display = "none";
+    clearAttempt();
+    window.location.href = "https://reddi2drive.co.uk/practice/";
+  });
+}
+
+// Tap outside the box closes (same as "No")
+if (quitConfirm){
+  quitConfirm.addEventListener("click", (e) => {
+    if (e.target === quitConfirm) quitConfirm.style.display = "none";
+  });
+}
+
+retryBtn.addEventListener("click", () => {
+  buildAttempt();
+  show(quizScreen);
+  render();
+});
+reviewBtn.addEventListener("click", () => {
+  const f = reviewFilter ? reviewFilter.value : "all";
+  buildReview(f);
+  show(reviewScreen);
+});
+
+if (reviewFilter){
+  reviewFilter.addEventListener("change", () => buildReview(reviewFilter.value));
+}
+backToResultsBtn.addEventListener("click", () => show(resultsScreen));
+newAttemptBtn.addEventListener("click", () => {
+  buildAttempt();
+  show(quizScreen);
+  render();
+});
+
+// =========================================================
+// 2) UI TITLE (AUTO)
+// ---------------------------------------------------------
+// Keeps the page header title in sync with TEST_TITLE.
+// =========================================================
+const titleEl = document.getElementById("testTitleText");
+if (titleEl) titleEl.textContent = TEST_TITLE;
+
+loadStats();
+show(startScreen);
+showLastReviewButton();
+checkForResume();
+
+(() => {
+  const scroller = document.getElementById("appScroll");
+  if (!scroller) return;
+
+  let startY = 0;
+
+  scroller.addEventListener("touchstart", (e) => {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  scroller.addEventListener("touchmove", (e) => {
+    const y = e.touches[0].clientY;
+    const pullingDown = y > startY;
+
+    if (scroller.scrollTop <= 0 && pullingDown) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+})();
+
+  // --- Fix iPad landscape viewport + prevent pull-to-refresh reliably ---
+(() => {
+  const scroller = document.getElementById("appScroll");
+  if (!scroller) return;
+
+  function setScrollerHeight(){
+    const h = (window.visualViewport && window.visualViewport.height)
+      ? Math.round(window.visualViewport.height)
+      : window.innerHeight;
+    scroller.style.height = h + "px";
+  }
+
+  setScrollerHeight();
+  window.addEventListener("resize", setScrollerHeight);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", setScrollerHeight);
+
+  let startY = 0;
+  scroller.addEventListener("touchstart", (e) => {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  scroller.addEventListener("touchmove", (e) => {
+    const y = e.touches[0].clientY;
+    const pullingDown = y > startY;
+    if (scroller.scrollTop <= 0 && pullingDown) e.preventDefault();
+  }, { passive: false });
+})();
+
+
+// --- Question count dropdown wiring (Start screen) ---
+(function(){
+  const qsSelect = document.getElementById("qsSelect");
+  const qsHint   = document.getElementById("qsHint");
+  if (!qsSelect) return;
+
+  const full = QUESTION_BANK.length;
+
+  const fullOpt = qsSelect.querySelector('option[value="full"]');
+  if (fullOpt) fullOpt.textContent = `Full (${full})`;
+
+  // Initialise from storage/default (loadStats also does this, but we keep it robust)
+  const saved = localStorage.getItem(STORAGE_QS);
+  let desired = saved ? Number(saved) : QS_PER_ATTEMPT_DEFAULT;
+  if (!Number.isFinite(desired) || desired < 1) desired = QS_PER_ATTEMPT_DEFAULT;
+
+  qsPerAttempt = Math.min(desired, full);
+  qsSelect.value = (qsPerAttempt === full) ? "full" : String(qsPerAttempt);
+  if (qsHint) qsHint.textContent = `(${qsPerAttempt} per attempt)`;
+
+  qsSelect.addEventListener("change", () => {
+    const v = (qsSelect.value === "full") ? full : Number(qsSelect.value);
+    if (!Number.isFinite(v)) return;
+    qsPerAttempt = Math.min(v, full);
+    localStorage.setItem(STORAGE_QS, String(qsPerAttempt));
+    if (qsHint) qsHint.textContent = `(${qsPerAttempt} per attempt)`;
+    if (typeof loadStats === "function") loadStats();
+  });
+})();
+
+// --- Hide question selector once the test starts; show it again for new attempts ---
+(function(){
+  const qsWrap = document.getElementById("qsWrapper");
+  if (!qsWrap) return;
+
+  const startBtn = document.getElementById("startBtn");
+  const retryBtn = document.getElementById("retryBtn");
+  const newAttemptBtn = document.getElementById("newAttemptBtn");
+
+  function hideQS(){ qsWrap.style.display = "none"; }
+  function showQS(){ qsWrap.style.display = "flex"; }
+
+  if (startBtn) startBtn.addEventListener("click", hideQS);
+  if (retryBtn) retryBtn.addEventListener("click", showQS);
+  if (newAttemptBtn) newAttemptBtn.addEventListener("click", showQS);
+})();
+</script>
+  </div>
+</body>
+</html>
